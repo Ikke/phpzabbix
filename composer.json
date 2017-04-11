@@ -1,9 +1,8 @@
 {
-    "name": "phpzabbix",
+    "name": "ikke/phpzabbix",
     "description": "PHP Zabbix API Client",
     "type": "library",
-    "version": "0.2.1",
-    "license": "GPL3",
+    "license": "GPL-3.0",
     "authors": [
         {
             "name": "Kevin Daudt",
