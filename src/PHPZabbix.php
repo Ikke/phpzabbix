@@ -8,8 +8,6 @@ use phpzabbix\JSONRPC\Response;
 use phpzabbix\JSONRPC\RequestCallbackInterface;
 use phpzabbix\JSONRPC\ErrorException;
 
-use \GuzzleHttp\ClientInterface;
-
 class PHPZabbix implements RequestCallbackInterface
 {
     public $client;
@@ -25,15 +23,9 @@ class PHPZabbix implements RequestCallbackInterface
 
     public function __construct(ClientInterface $client, $apiUrl)
     {
-        $this->client = $client;
+        $this->client = new \GuzzleHttp\Client();
         $this->apiUrl = $apiUrl;
     }
-
-    public static function withDefaultClient($apiUrl) {
-        $client = new \GuzzleHttp\Client();
-        return new PHPZabbix($client, $apiUrl);
-    }
-
 
     public function call($method, array $params = [])
     {
