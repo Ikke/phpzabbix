@@ -4,7 +4,7 @@ Zabbix PHP API library based on [pyzabbix][0].
 
 ## Example
 
-    $api = new phpzabbix\PHPZabbix('http://example.com/zabbix/api_jsonrpc.php');
+    $api = phpzabbix\PHPZabbix::withDefaultClient('http://example.com/zabbix/api_jsonrpc.php');
     $api->login('username', 'password');
 
     $hosts = $api->host->get(['output' => ['hostid', 'name']]);
