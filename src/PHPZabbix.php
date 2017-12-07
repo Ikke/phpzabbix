@@ -7,6 +7,8 @@ use phpzabbix\JSONRPC\Request;
 use phpzabbix\JSONRPC\Response;
 use phpzabbix\JSONRPC\RequestCallbackInterface;
 use phpzabbix\JSONRPC\ErrorException;
+use phpzabbix\Exception\NotAuthorized;
+use phpzabbix\Exception\InvalidCredentials;
 
 use \GuzzleHttp\ClientInterface;
 
@@ -77,11 +79,17 @@ class PHPZabbix implements RequestCallbackInterface
     public function raise_for_jsonrpc_error(Response $response)
     {
         if($response->is_error()) {
-            throw new ErrorException(
-                $response->error->message,
-                $response->error->code,
-                $response->error->data
-            );
+            if (preg_match('/^Session terminated/', $response->error->data)) {
+                throw new NotAuthorized();
+            } elseif (preg_match('/^Login name or password/', $response->error->data)) {
+                throw new InvalidCredentials();
+            } else {
+                throw new ErrorException(
+                    $response->error->message,
+                    $response->error->code,
+                    $response->error->data
+                );
+            }
         }
     }
 
