@@ -20,6 +20,8 @@ class PHPZabbix implements RequestCallbackInterface
     public $authToken;
     public $currentId=1;
 
+    public $api_version=null;
+
     public $no_auth_methods = [
         'user.login',
         'apiinfo.version'
@@ -57,9 +59,23 @@ class PHPZabbix implements RequestCallbackInterface
 
     public function login($username, $password)
     {
+        $usernameField = 'username';
+        if(version_compare($this->api_version(), '5.4.0', '<')) {
+            $usernameField = 'user';
+        }
+
         $this->authToken = $this->user->login(
-            ['user' => $username, 'password' => $password]
+            [$usernameField => $username, 'password' => $password]
         );
+    }
+
+    public function api_version()
+    {
+        if($this->api_version == null) {
+            $this->api_version = $this->apiinfo->version();
+        }
+
+        return $this->api_version;
     }
 
     public function create_jsonrpc_request($method, $params = [])
@@ -81,7 +97,7 @@ class PHPZabbix implements RequestCallbackInterface
         if($response->is_error()) {
             if (preg_match('/^Session terminated/', $response->error->data)) {
                 throw new NotAuthorized();
-            } elseif (preg_match('/^Login name or password/', $response->error->data)) {
+            } elseif (preg_match('/^(Login|Incorrect user) name or password/', $response->error->data)) {
                 throw new InvalidCredentials();
             } else {
                 throw new ErrorException(
@@ -98,4 +114,3 @@ class PHPZabbix implements RequestCallbackInterface
         return (new RequestBuilder($this))->$name;
     }
 }
-
