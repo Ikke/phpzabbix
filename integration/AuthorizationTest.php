@@ -10,7 +10,7 @@ class AuthorizationTest extends TestCase
     protected $api;
     protected $settings;
 
-    public function setUp()
+    public function setUp(): void
     {
         $settings = require('settings.php');
         $this->api = PHPZabbix::withDefaultClient($settings['api_url']);
