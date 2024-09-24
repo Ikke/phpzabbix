@@ -9,6 +9,13 @@ Zabbix PHP API library based on [pyzabbix][0].
 
     $hosts = $api->host->get(['output' => ['hostid', 'name']]);
 
+It's also possible to directly set the authorization token, either obtained earlier by logging in, or an API token:
+
+    $api = phpzabbix\PHPZabbix::withDefaultClient('http://example.com/zabbix/api_jsonrpc.php');
+    $api->authToken = 'abcdef123456';
+
+    $hosts = $api->host->get(['output' => ['hostid', 'name']]);
+
 ## Error handling
 
 The following exceptions can be thrown:
@@ -40,5 +47,5 @@ work, but that has not been verified.
 This code is distributed under the [GPLv3][2] license.
 
 [0]:https://github.com/lukecyca/pyzabbix
-[1]:https://www.zabbix.com/documentation/3.4/manual/api
+[1]:https://www.zabbix.com/documentation/current/manual/api
 [2]:LICENSE
