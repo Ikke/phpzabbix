@@ -23,7 +23,6 @@ class RequestBuilder
     function __call($name, $arguments)
     {
         $methodname = sprintf("%s.%s", $this->objectName, $name);
-        return $this->callback->call($methodname, current($arguments) ?: []);        
+        return $this->callback->call($methodname, current($arguments) ?: []);
     }
 }
-

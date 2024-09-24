@@ -10,7 +10,7 @@ class AuthorizationTest extends TestCase
     protected $api;
     protected $settings;
 
-    public function setUp()
+    public function setUp(): void
     {
         $settings = require('settings.php');
         $this->api = PHPZabbix::withDefaultClient($settings['api_url']);
@@ -33,7 +33,7 @@ class AuthorizationTest extends TestCase
 
     public function testLoginWithValidCredentials()
     {
-        $user = $this->settings['api_user'];
+        $user = $this->settings['api_username'];
         $password = $this->settings['api_password'];
 
         $this->api->login($user, $password);
@@ -42,4 +42,3 @@ class AuthorizationTest extends TestCase
         $this->assertNotEmpty($user);
     }
 }
-
