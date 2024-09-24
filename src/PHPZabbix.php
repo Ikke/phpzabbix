@@ -43,7 +43,15 @@ class PHPZabbix implements RequestCallbackInterface
     {
         $headers = ['Content-Type' => 'application/json-rpc'];
 
-        $req = $this->create_jsonrpc_request($method, $params);
+        $use_auth_header = false;
+        if($this->method_requires_authentication($method)) {
+            $use_auth_header = version_compare($this->api_version(), '6.4.0', '>=');
+            if($use_auth_header) {
+                $headers['Authorization'] = sprintf('Bearer %s', $this->authToken);
+            }
+        }
+
+        $req = $this->create_jsonrpc_request($method, $params, !$use_auth_header);
         $http_response = $this->client->post(
             $this->apiUrl, [
                 'headers' => $headers,
@@ -78,18 +86,22 @@ class PHPZabbix implements RequestCallbackInterface
         return $this->api_version;
     }
 
-    public function create_jsonrpc_request($method, $params = [])
+    public function create_jsonrpc_request($method, $params = [], $use_auth_param=true)
     {
         $req = new Request();
         $req->id = $this->currentId++;
         $req->method = $method;
         $req->params = $params;
 
-        if(!in_array($method, $this->no_auth_methods)) {
+        if($use_auth_param && $this->method_requires_authentication($method)) {
             $req->auth = $this->authToken;
         }
 
         return $req;
+    }
+
+    public function method_requires_authentication($method): bool {
+        return !in_array($method, $this->no_auth_methods);
     }
 
     public function raise_for_jsonrpc_error(Response $response)
