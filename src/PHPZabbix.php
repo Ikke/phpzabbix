@@ -24,6 +24,7 @@ class PHPZabbix implements RequestCallbackInterface
 
     public $no_auth_methods = [
         'apiinfo.version',
+        'user.checkAuthentication',
         'user.login',
     ];
 
