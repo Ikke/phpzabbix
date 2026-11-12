@@ -1,22 +1,9 @@
 <?php
 
-use phpzabbix\PHPZabbix;
-use PHPUnit\Framework\TestCase;
+require_once(__DIR__.'/IntegrationTestCase.php');
 
-require_once(__DIR__.'/../vendor/autoload.php');
-
-class AuthorizationTest extends TestCase
+class AuthorizationTest extends IntegrationTestCase
 {
-    protected $api;
-    protected $settings;
-
-    public function setUp(): void
-    {
-        $settings = require('settings.php');
-        $this->api = PHPZabbix::withDefaultClient($settings['api_url']);
-
-        $this->settings = $settings;
-    }
 
     public function testInvalidCredentialsThrowsException()
     {

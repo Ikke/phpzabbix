@@ -29,6 +29,14 @@ services:
     image: php:8.1-cli-alpine
     profiles: [command]
     command: vendor/bin/phpunit integration/
+    environment:
+      ZABBIX_API_URL: http://zabbix-frontend:8080/api_jsonrpc.php
+      ZABBIX_API_USERNAME: Admin
+      ZABBIX_API_PASSWORD: zabbix
+      ZABBIX_API_TOKEN: 5db357b158fb2269cebb91045043c9ad21cb05c4c924c731b6503a500efd3c99
+    depends_on:
+      zabbix-frontend:
+        condition: service_healthy
     volumes:
       - ./:/src
     working_dir: /src
