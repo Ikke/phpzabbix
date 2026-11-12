@@ -42,6 +42,21 @@ itself.
 This library should work with Zabbix 3.0 and higher. Older versions should also
 work, but that has not been verified.
 
+## Running tests
+
+The unit and integration tests can be run using docker compose. The Zabbix and
+PHP versions can be selected with `ZABBIX_VERSION` (default 7.4) and
+`PHP_VERSION` (default 8.1):
+
+```sh
+docker compose run --rm test
+ZABBIX_VERSION=6.0 PHP_VERSION=8.3 docker compose run --rm integration-test
+```
+
+The integration tests read the API settings from the `ZABBIX_API_URL`,
+`ZABBIX_API_USERNAME`, `ZABBIX_API_PASSWORD` and `ZABBIX_API_TOKEN` environment
+variables, or from `integration/settings.php` (see `settings.dist.php`).
+
 ## License
 
 This code is distributed under the [GPLv3][2] license.
