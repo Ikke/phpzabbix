@@ -7,6 +7,7 @@ class Response
     public $jsonrpc = "";
     public $result = null;
     public $id = 0;
+    public $error = null;
 
     public function is_error()
     {
