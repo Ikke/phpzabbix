@@ -6,7 +6,7 @@ class ErrorException extends \Exception
 {
     public $data = null;
 
-    public function __construct($message, $code, $data, Exception $previous = null)
+    public function __construct($message, $code, $data, ?Exception $previous = null)
     {
         parent::__construct($message, $code, $previous);
         $this->data = $data;
