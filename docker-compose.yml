@@ -1,6 +1,6 @@
 services:
   zabbix-frontend:
-    image: alpinelinux/zabbix-ci:${ZABBIX_VERSION:-7.0}
+    image: alpinelinux/zabbix-ci:${ZABBIX_VERSION:-7.4}
     ports:
      - 7871:8080
     environment:

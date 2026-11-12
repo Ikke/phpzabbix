@@ -45,7 +45,7 @@ work, but that has not been verified.
 ## Running tests
 
 The unit and integration tests can be run using docker compose. The Zabbix and
-PHP versions can be selected with `ZABBIX_VERSION` (default 7.0) and
+PHP versions can be selected with `ZABBIX_VERSION` (default 7.4) and
 `PHP_VERSION` (default 8.1):
 
 ```sh
