@@ -49,6 +49,14 @@ class AuthorizationTest extends TestCase
         );
 
         $this->assertEquals("Bearer abcdef123456", $request->getHeader('authorization')[0]);
+
+        $apiRequest = json_decode($request->getBody());
+
+        $this->assertObjectNotHasAttribute(
+            'auth',
+            $apiRequest,
+            'With zabbix >= 6.4.0, expected jsonrpc request to not contain auth property'
+        );
     }
 
     public function testAuthorizationPre640()
